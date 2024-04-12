@@ -1,26 +1,40 @@
-from flask import Flask, render_template, request, url_for, session, redirect
+from flask import Flask, render_template, request, redirect, url_for, session
+from config import app, db
+from User import User
 
-app = Flask(__name__)
-app.config.from_object("config.py")
-from app import views
+user = User
 
 
-@app.route("/")
+@app.route("/home", methods=["GET", "POST"])
 def home():
-    user = {"nickname": "Oktawn", "policy": "student"}
+    user = {"nickname": user.login, "policy": user.policy}
     return render_template("home.html", user=user)
 
 
+@app.route("/")
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # our code will co here
-    return render_template("login.html")
+    if request.method == "POST":
+        login = request.form("login")
+        pswd = request.form("pswd")
+        email = request.form("email")
+
+        user.SignUp(login, pswd, email)
+        try:
+            db.session.add(user)
+            db.session.commit()
+            redirect("/home")
+        except:
+            request.form("login").args.get()
+
+    else:
+        return render_template("login.html")
 
 
 @app.route("/logout")
 def logout():
     # our code will co here
-    return redirect(url_for("login.html"))
+    return login()
 
 
 if __name__ == "__main__":
