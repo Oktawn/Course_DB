@@ -1,50 +1,48 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField,PasswordField
+
+
+class RestrForm(FlaskForm):
+    username = StringField("Username")
+    password = PasswordField("Password")
+    submit = SubmitField()
+
+
+# class SingUpForm(FlaskForm):
+#     username = StringField("Username")
+#     password = PasswordField("Password")
+#     submit = SubmitField()
+
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///DataBase.db"
-db = SQLAlchemy(app)
-
-
-class UserDB(db.Model):
-    login = db.Column(db.String, primary_key=True)
-    pswd = db.Column(db.String, nullable=False)
-    policy = db.Column(db.INTEGER, default=0)
-
-    def Authoriz(login, pswd):
-        login = login
-        pswd = pswd
-
-    def Logout():
-        login = None
-        pswd = None
-
-    def __repr__(self):
-        return "<User %r>" % self.login
+app.config["SECRET_KEY"] = "the random string"
 
 
 @app.route("/home", methods=["GET", "POST"])
-def home(user):
-    return render_template("home.html", user)
+def home(username):
+    return render_template("home.html", user=username)
 
 
-@app.route("/")
+@app.route("/singup", methods=["GET", "POST"])
+def singup():
+    form = RestrForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        return home(username)
+    return render_template("singup.html", form=form)
+
+
+@app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        login = request.form["login"]
-        pswd = request.form["pswd"]
-
-        user = UserDB(login=login, pswd=pswd, policy=0)
-        try:
-            db.session.add(user)
-            db.session.commit()
-            return redirect("/home", user)
-        except:
-            render_template("login.html")
-
-    else:
-        return render_template("login.html")
+    form = RestrForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        return home(username)
+    return render_template("login.html", form=form)
 
 
 @app.route("/logout")

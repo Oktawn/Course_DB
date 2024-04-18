@@ -1,5 +1,6 @@
 /.vscode
 /__pycache__
+/instance
 *.db
 *.sql
 !DataBase.db
