@@ -57,3 +57,35 @@ def check_user(user_login, password):
         print('Connection error')
         print(ex)
 
+def get_data_user(user_login):
+    try:
+        connection = pymysql.connect(
+            host = 'server14.hosting.reg.ru',
+            port = 3306,
+            user = 'u2559429_admin',
+            password= 'Efim0909.',
+            database= 'u2559429_efim',
+            cursorclass= pymysql.cursors.DictCursor
+        )
+    
+        try:
+            # Insert data into table
+            with connection.cursor() as cursor:
+                insert_query = f"SELECT * FROM `student` WHERE login = '{user_login}';"
+                cursor.execute(insert_query)
+                connection.commit()
+                result = cursor.fetchall()
+                result = str(result)
+                return result
+                
+        finally:
+            connection.close()
+
+        
+    except Exception as ex:
+        print('Connection error')
+        print(ex)
+
+data = get_data_user('efim')
+data = data[-6:-2]
+print(data)

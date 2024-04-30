@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    <title></title>
+  </head>
+  <body>
+    <main class="container">
+    <article>
+        <div class="grid">
+            <div>
+                <img src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547" alt="Minimal landscape"/>
+                <h3>Здравствуйте {{user}}</h3>
+            </div>
+            <div>
+                <a href="{{ url_for('schedule', group=group)}}">Расписание</a>
+                <hr />
+                <button>Оценки</button>
+                <hr />
+                <button>Личные данные</button>
+                <hr />
+                <button>Задания</button>
+                <hr />
+                <button>Выйти</button>
+            </div>
+        </div>
+    </article>
+    </main>
+  </body>
+</html>

@@ -1,16 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField,PasswordField
-from check_db import create_user, check_user
+from check_db import create_user, check_user, get_data_user
 from werkzeug.security import generate_password_hash
 
 class RestrForm(FlaskForm):
-    username = StringField("Username")
-    password = PasswordField("Password")
-    submit = SubmitField()
-
-
-class SingUpForm(FlaskForm):
     username = StringField("Username")
     password = PasswordField("Password")
     submit = SubmitField()
@@ -22,8 +16,15 @@ app.config["SECRET_KEY"] = "the random string"
 
 @app.route("/home", methods=["GET", "POST"])
 def home(username):
-    return render_template("home.html", user=username)
+    student = get_data_user(username)
+    group_id = str(student[-6:-2])
+    return render_template("new_home.html", user=username, group = group_id)
 
+
+@app.route('/schedule/<group>', methods=["GET", "POST"])
+def schedule(group):
+    iframe = "https://old.tyuiu.ru/shedule_new/bin/groups.py?act=show&print=&sgroup="  + group
+    return render_template("schedule.html", iframe=iframe)
 
 # @app.route("/singup", methods=["GET", "POST"])
 # def singup():
