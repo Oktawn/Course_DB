@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Authorization</title>
+    <link rel="stylesheet" href="../static/css/pico.violet.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main">
+        <div class="grid" style="text-align: center;">
+                <h1>Update transcript</h1>
+        </div>
+        <div class="grid">
+            <div></div>
+            <div>
+                <article>
+                    <div class="grid">
+                        <form action="{{url_for('home', username=user)}}" method="post">
+                            {{form.transcript()}}
+                            {{form.submit}}
+                        </form>
+                    </div>
+                </article>
+            </div>
+            <div></div>
+        </div>
+    </div>
+</body>
+
+</html>

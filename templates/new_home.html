@@ -22,7 +22,13 @@
             <a style="text-decoration: none;color: inherit;" href="{{ url_for('schedule', group=group)}}">Расписание</a>
           </button>
           <hr />
-          <button>Оценки</button>
+          <button>
+            {% if transcript == 'None' %}
+              <a style="text-decoration: none;color: inherit;" href="{{ url_for('evaluations_input', username=user)}}">Оценки</a>
+            {% else %}
+              <a style="text-decoration: none;color: inherit;" href="{{ url_for('transcript')}}">Оценки</a>
+            {% endif %}
+          </button>
           <hr />
           <button>Личные данные</button>
           <hr />
