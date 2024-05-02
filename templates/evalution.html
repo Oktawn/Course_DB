@@ -9,16 +9,14 @@
 
 <body>
     <div class="main">
-        <div class="grid">
-            <div></div>
-            <div>
-                <h2>Ошибка</h2>
-                <h2>ДВА</h2>
-                <a href="{{url_for('login')}}">Вернуться</a>
-            </div>
-            <div></div>
-        </div>
+        <h2 style="text-align: center; margin-top: 40px;">Моя успеваемость</h2>
+        <ul>
+            {% for ac_perf in pefc %}
+            <li>{{ ac_perf.disc }}: {{ac_perf.res}}</li>
+            {% endfor %}
+        </ul>
     </div>
+    <a href="{{url_for('login')}}">Вернуться</a>
 </body>
 
 </html>

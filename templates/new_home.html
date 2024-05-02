@@ -12,30 +12,27 @@
 <body>
   <main class="container">
     <article>
-      <div class="grid">
+      <div style="justify-content: center; ">
         <div>
           <img src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547" alt="Minimal landscape" />
           <h3>Здравствуйте {{user}}</h3>
         </div>
-        <div>
-          <button>
-            <a style="text-decoration: none;color: inherit;" href="{{ url_for('schedule', group=group)}}">Расписание</a>
-          </button>
-          <hr />
-          <button>
-            {% if transcript == 'None' %}
-              <a style="text-decoration: none;color: inherit;" href="{{ url_for('evaluations_input', username=user)}}">Оценки</a>
-            {% else %}
-              <a style="text-decoration: none;color: inherit;" href="{{ url_for('transcript')}}">Оценки</a>
-            {% endif %}
-          </button>
-          <hr />
-          <button>Личные данные</button>
-          <hr />
-          <button>Задания</button>
-          <hr />
-          <button>Выйти</button>
-        </div>
+      </div>
+      <div style="text-align: center; column-gap: 20px">
+        <button>
+          <a style="text-decoration: none;color: inherit;" href="{{ url_for('schedule', group=group)}}">Расписание</a>
+        </button>
+        <button>
+          {% if transcript == 'None' %}
+          <a style="text-decoration: none;color: inherit;"
+            href="{{ url_for('evaluations_input', username=user)}}">Оценки</a>
+          {% else %}
+          <a style="text-decoration: none;color: inherit;" href="{{ url_for('transcript')}}">Оценки</a>
+          {% endif %}
+        </button>
+        <button>Личные данные</button>
+        <button>Задания</button>
+        <button>Выйти</button>
       </div>
     </article>
   </main>
