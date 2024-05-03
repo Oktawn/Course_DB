@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField
-from check_db import create_user, check_user, get_data_user, change_transcript
+from check_db import create_user, check_user, get_data_user, change_transcript,create_table
 from werkzeug.security import generate_password_hash
 
 class RestrForm(FlaskForm):
@@ -59,6 +59,7 @@ def error(name_error):
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    create_table()
     form = RestrForm()
     username = form.username.data 
     password = form.password.data
