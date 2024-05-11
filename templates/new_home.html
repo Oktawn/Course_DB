@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+  <link rel="stylesheet" href='../static/style_home.css' />
   <title></title>
 </head>
 
@@ -20,19 +21,20 @@
       </div>
       <div style="text-align: center;">
         <button>
-          <a style="text-decoration: none;color: inherit;" href="{{ url_for('schedule', group=group)}}">Расписание</a>
+          <a href="{{ url_for('schedule', group=group)}}">Расписание</a>
         </button>
         <button>
           {% if transcript == 'None' %}
-          <a style="text-decoration: none;color: inherit;"
-            href="{{ url_for('evaluations_input', username=user)}}">Оценки</a>
+          <a href="{{ url_for('evaluations_input', username=user)}}">Оценки</a>
           {% else %}
-          <a style="text-decoration: none;color: inherit;" href="{{ url_for('transcript')}}">Оценки</a>
+          <a href="{{ url_for('transcript')}}">Оценки</a>
           {% endif %}
         </button>
         <button>Личные данные</button>
         <button>Задания</button>
-        <button>Выйти</button>
+        <button>
+          <a href="{{url_for('login')}}"> Выйти </a>
+        </button>
       </div>
     </article>
   </main>

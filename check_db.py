@@ -1,4 +1,5 @@
 import pymysql
+import json
 
 
 def create_user(user_login, password):
@@ -76,15 +77,7 @@ def get_data_user(user_login):
                 cursor.execute(insert_query)
                 connection.commit()
                 result = cursor.fetchall()
-                data = str(result)
-                for i in ["[", "]", "{", "}"]:
-                    data = data.replace(i, "")
-                    data = data.replace(" ", "")
-                data = data.replace("'", "")
-                data = data.replace(",", " ")
-                data = data.replace(":", " ")
-                data = data.split(" ")
-                return data
+                return result
 
         finally:
             connection.close()

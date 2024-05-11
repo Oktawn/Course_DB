@@ -24,6 +24,9 @@
                             {{ form.password.label() }}
                             {{ form.password()}}
                             {{ form.submit() }}
+                            {% if error %}
+                            <p>{{ error }}</p>
+                            {% endif %}
                         </form>
                     </div>
                 </article>
