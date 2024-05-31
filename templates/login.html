@@ -1,39 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Authorization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/pico.violet.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <title>Login</title>
 </head>
 
-<body>
-    <div class="main">
-        <div class="grid" style="text-align: center;">
-                <h1>Login</h1>
-        </div>
-        <div class="grid">
-            <div></div>
-            <div>
-                <article>
-                    <div class="grid">
-                        <form action="/" method="post">
-                            {{ form.hidden_tag() }}
-                            {{ form.username.label() }}
-                            {{ form.username() }}
-                            {{ form.password.label() }}
-                            {{ form.password()}}
-                            {{ form.submit() }}
-                            {% if error %}
-                            <p>{{ error }}</p>
-                            {% endif %}
-                        </form>
-                    </div>
-                </article>
-            </div>
-            <div></div>
-        </div>
-    </div>
+<body style="text-align: center;" class="grid">
+    <div></div>
+    <article>
+        <form method="POST">
+            <h2>Login</h2>
+            <label for="username">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <button type="submit">Login</button>
+            {% if error %}
+            <p>{{ error }}</p>
+            {% endif %}
+        </form>
+    </article>
+    <div></div>
 </body>
 
 </html>

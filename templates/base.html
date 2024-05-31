@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+    <link rel="stylesheet" href="../static/css/pico.violet.min.css" />
+</head>
+
+<body style="width: 99%;">
+    <nav class="grid" style="width:auto; margin-left: 20px; margin-right: 20px;">
+        <ul>
+            <li><strong>Pages</strong></li>
+            <li></li>
+            <li>
+                <details class="dropdown">
+                    <summary id="menu" name="menu">{{page}}</summary>
+                    <ul dir="rtl">
+                        <li><a href="{{ url_for('index') }}">Главная</a></li>
+                        <li><a href="{{ url_for('profile') }}">Личные данные</a></li>
+                        <li><a href="{{ url_for('grades') }}">Оценки</a></li>
+                        <li><a href="{{ url_for('assignment') }}">Задания</a></li>
+                        <li><a href="{{ url_for('schedule') }}">Расписание</a></li>
+                        <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

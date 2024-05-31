@@ -1,0 +1,63 @@
+BODY,
+FORM {
+    font-family: arial, sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+}
+
+DIV,
+SPAN,
+FORM {
+    font-family: arial, sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+    margin: 0px;
+    padding: 0px;
+    text-align: center, left, right;
+}
+
+DIV.header {
+    text-align: center;
+    font-size: 12pt;
+    font-weight: bold;
+    background-color: #003399;
+    color: white;
+}
+
+TABLE {
+    font-family: arial, sans-serif;
+    font-size: 14pt;
+    border-collapse: collapse;
+}
+
+CAPTION {
+    font-weight: bold;
+}
+
+THEAD {
+    font-family: arial, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+    text-align: center;
+    background-color: #cccccc;
+}
+
+TABLE.time_table {
+    width: 100%;
+    border: 1px solid black;
+}
+
+TABLE.time_table TD {
+    font-size: 14px;
+    border: 1px solid black;
+}
+
+TABLE.cell TD {
+    height: auto;
+    font-size: 14px;
+    border-style: none;
+}
+
+TABLE.cell TD.stroke {
+    border-left: 1px dashed black;
+}

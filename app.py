@@ -1,103 +1,93 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, IntegerField
-from check_db import (
-    create_user,
-    check_user,
-    get_data_user,
-    change_transcript,
-    create_table,
+from flask import Flask, render_template, request, redirect, url_for, session
+from config import Config
+from flask_bcrypt import Bcrypt
+from db import (
+    init_db,
+    check_student,
+    show_grade,
+    show_group,
+    update_student,
+    show_schedule,
+    show_assignment,
 )
-from werkzeug.security import generate_password_hash
-import json
-
-
-class RestrForm(FlaskForm):
-    username = StringField("Username")
-    password = PasswordField("Password")
-    submit = SubmitField()
-
-
-class TranscriptForm(FlaskForm):
-    transcript = IntegerField("Integer number")
-    submit = SubmitField()
-
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "the random string"
+
+app.config.from_object(Config)
+bcrypt = Bcrypt(app)
 
 
-# Главная страница ученика
-@app.route("/home/<username>", methods=["GET", "POST"])
-@app.route("/home", methods=["GET", "POST"])
-def home(username):
-    student = get_data_user(username)
-    group_id = student[0]["group_id"]
-    transcript = student[0]["transcript"]
-    name_error = "нету номера зачетки"
-    return render_template(
-        "new_home.html",
-        user=username,
-        group=group_id,
-        transcript=transcript,
-        name_error=name_error,
-    )
+init_db()
 
 
-# Оценки
-@app.route("/transcript")
-def transcript():
-    return render_template("evalution.html")
-
-
-# Расписание
-@app.route("/schedule/<group>", methods=["GET", "POST"])
-def schedule(group):
-    iframe = (
-        "https://old.tyuiu.ru/shedule_new/bin/groups.py?act=show&print=&sgroup=" + group
-    )
-    return render_template("schedule.html", iframe=iframe)
-
-
-# Внести номер зачетки
-@app.route("/evaluations_input/<username>", methods=["GET", "POST"])
-def evaluations_input(username):
-    form_transcript = TranscriptForm()
-    if form_transcript.validate_on_submit():
-        transcript_num = form_transcript.transcript.data
-        change_transcript(username, transcript_num)
-    return render_template(
-        "evaluations_input.html", form=form_transcript, user=username
-    )
-
-
-# Ошибка
-@app.route("/error", methods=["GET", "POST"])
-@app.route("/error/<name_error>", methods=["GET", "POST"])
-def error(name_error):
-    return render_template("error.html", name_error=name_error)
-
-
-# Страница авторизации
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    form = RestrForm()
-    username = form.username.data
-    password = form.password.data
-    if form.validate_on_submit():
-        if check_user(username, password) == True:
-            return home(username)
+    if request.method == "POST":
+        username = request.form["email"]
+        password = request.form["password"]
+        user = check_student(username, password, bcrypt)
+        if user:
+            session["email"] = user
+            print(session["email"])
+            return redirect(url_for("index"))
         else:
-            return render_template(
-                "login.html", form=form, error="Invalid username or password."
-            )
-    return render_template("login.html", form=form)
+            return render_template("login.html", error="Invalid username or password")
+    return render_template("login.html")
 
 
 @app.route("/logout")
 def logout():
-    return login()
+    session.pop("email", None)
+    return redirect(url_for("login"))
+
+
+@app.route("/main")
+def index():
+    cur = "Главная"
+    return render_template("index.html", page=cur)
+
+
+@app.route("/main/my", methods=["GET", "POST"])
+def profile():
+    if "email" not in session:
+        return redirect(url_for("login"))
+    user = session["email"]
+    cur = "Личные данные"
+    group = show_group(user["group_id"])
+    if request.method == "POST":
+        user["first_name"] = request.form["first_name"]
+        user["last_name"] = request.form["last_name"]
+        update_student(user["first_name"], user["last_name"], user["email"])
+        return redirect(url_for("profile"))
+    return render_template("profile.html", user=user, group=group, page=cur)
+
+
+@app.route("/main/grades", methods=["GET", "POST"])
+def grades():
+    if "email" not in session:
+        return redirect(url_for("login"))
+    cur = "Оценки"
+    grades = show_grade(session["email"]["id"])
+    return render_template("grades.html", grades=grades, page=cur)
+
+
+@app.route("/main/schedule", methods=["GET", "POST"])
+def schedule():
+    if "email" not in session:
+        return redirect(url_for("login"))
+    cur = "Расписание"
+    content = show_schedule(session["email"]["group_id"])
+    return render_template("schedule.html", html_content=content, page=cur)
+
+
+@app.route("/main/assignment", methods=["GET", "POST"])
+def assignment():
+    if "email" not in session:
+        return redirect(url_for("login"))
+    cur = "Задания"
+    content = show_assignment(session["email"]["id"])
+    return render_template("assignment.html", page=cur, grades=content)
 
 
 if __name__ == "__main__":

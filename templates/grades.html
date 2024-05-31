@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="width:auto; margin-left: 20px; margin-right: 20px;">
+    <h1>Оценки</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Дисциплины</th>
+                <th>&ensp;Баллы &ensp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+            <tr>
+                <td>{{ grade.name }}</td>
+                <td>&emsp;{{ grade.grade }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

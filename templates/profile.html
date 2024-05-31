@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <div>
+        <form method="POST" style="width:auto; margin-left: 20px; margin-right: 20px;">
+            <h1>Личные данные</h1>
+            <label>Имя:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}">
+            <br>
+            <label for="last_name">Фамилия:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}">
+            <br>
+            <label for="group">Группа:&emsp;{{ group }}</label>
+            <br>
+            <label for="email">Email:&emsp;{{ user.email }}</label>
+            <br>
+            <label for="semester">Semester:&emsp;{{user.semester}}</label>
+            <br>
+            <button type="submit"
+                style="width: 50%;display: block;  margin-left: auto;  margin-right: auto;">Сохранить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
